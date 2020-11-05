@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.crefstech.myremote.login.ui.login.LoginActivity;
+import com.crefstech.myremote.login.LoginActivity;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -13,7 +13,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        startActivity(new Intent(SplashScreen.this, login.class));
+        startActivity(new Intent(SplashScreen.this, LoginActivity.class));
         finish();
     }
 }
