@@ -2,6 +2,8 @@ package com.crefstech.myremote.room;
 
 import android.content.Context;
 
+import com.crefstech.myremote.room.devices.Device;
+import com.crefstech.myremote.room.devices.DeviceDao;
 import com.crefstech.myremote.room.user.User;
 import com.crefstech.myremote.room.user.userDao;
 
@@ -16,9 +18,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Device.class}, version = 2, exportSchema = false)
 public abstract class LocalRoomDatabase extends RoomDatabase {
     public abstract userDao userDao();
+
+    public abstract DeviceDao deviceDao();
 
     private static volatile LocalRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -31,6 +35,7 @@ public abstract class LocalRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             LocalRoomDatabase.class, "localDatabase")
+
                             .build();
                 }
             }

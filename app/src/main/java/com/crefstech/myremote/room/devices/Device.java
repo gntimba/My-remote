@@ -1,47 +1,38 @@
 
-package com.crefstech.myremote.models;
+package com.crefstech.myremote.room.devices;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "devices")
 public class Device {
 
-    @SerializedName("id")
-    @Expose
+
+    @PrimaryKey
+    @NonNull
     private String id;
-    @SerializedName("phoneNo")
-    @Expose
+
+
     private String phoneNo;
-    @SerializedName("customName")
-    @Expose
+
     private String customName;
-    @SerializedName("user_ID")
-    @Expose
-    private String userID;
-    @SerializedName("device_id")
-    @Expose
-    private String deviceId;
-    @SerializedName("model")
-    @Expose
+
     private String model;
-    @SerializedName("description")
-    @Expose
+
     private String description;
-    @SerializedName("type")
-    @Expose
+
     private String type;
-    @SerializedName("commands")
-    @Expose
-    private Commands commands;
-    @SerializedName("picture")
-    @Expose
+
+    private String commands;
+
     private String picture;
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
 
@@ -61,21 +52,6 @@ public class Device {
         this.customName = customName;
     }
 
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
 
     public String getModel() {
         return model;
@@ -101,11 +77,11 @@ public class Device {
         this.type = type;
     }
 
-    public Commands getCommands() {
+    public String getCommands() {
         return commands;
     }
 
-    public void setCommands(Commands commands) {
+    public void setCommands(String commands) {
         this.commands = commands;
     }
 

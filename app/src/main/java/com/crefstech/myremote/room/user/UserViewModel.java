@@ -2,7 +2,7 @@ package com.crefstech.myremote.room.user;
 
 import android.app.Application;
 
-import com.crefstech.myremote.room.LocalRoomDatabase;
+import java.util.List;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData;
 public class UserViewModel extends AndroidViewModel {
 
     private UserRepo userRepo;
-     private final LiveData<User> userLiveData;
+    private final LiveData<List<User>> userLiveData;
 
 
    public UserViewModel(Application application) {
@@ -19,7 +19,7 @@ public class UserViewModel extends AndroidViewModel {
         userLiveData = userRepo.getUserLiveData();
     }
 
-    LiveData<User> getUserLiveData(){
+    public LiveData<List<User>> getUserLiveData() {
         return userLiveData;
     }
 

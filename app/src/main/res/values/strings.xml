@@ -17,4 +17,8 @@
     -->
     <string name="email">eMail</string>
     <string name="password">Password</string>
+    <string name="gate">Gate</string>
+    <string name="alarm">Alarm</string>
+    <string name="garage">Garage</string>
+    <string name="token">token</string>
 </resources>

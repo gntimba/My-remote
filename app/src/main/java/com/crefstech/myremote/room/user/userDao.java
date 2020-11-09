@@ -1,5 +1,6 @@
 package com.crefstech.myremote.room.user;
 
+
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -13,6 +14,14 @@ public interface userDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(User user);
 
+    @Query("SELECT * from user")
+    LiveData<List<User>> getUser();
+
+
     @Query("SELECT * from user limit 1")
-    LiveData<User> getUser();
+    List<User> getUserr();
+
+
+    @Query("DELETE FROM USER")
+    void Delete();
 }

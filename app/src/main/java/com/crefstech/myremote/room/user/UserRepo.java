@@ -4,11 +4,13 @@ import android.app.Application;
 
 import com.crefstech.myremote.room.LocalRoomDatabase;
 
+import java.util.List;
+
 import androidx.lifecycle.LiveData;
 
 public class UserRepo {
     private userDao uDao;
-    private LiveData<User> userLiveData;
+    private LiveData<List<User>> userLiveData;
 
 
     UserRepo(Application application) {
@@ -17,7 +19,7 @@ public class UserRepo {
         userLiveData = uDao.getUser();
     }
 
-    LiveData<User> getUserLiveData(){
+    LiveData<List<User>> getUserLiveData() {
         return userLiveData;
     }
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_gate"
+        android:icon="@drawable/icons8_fence_96px"
+        android:title="@string/gate" />
+
+    <item
+        android:id="@+id/navigation_alarm"
+        android:icon="@drawable/icons8_fire_alarm_box_96px"
+        android:title="@string/alarm" />
+
+    <item
+        android:id="@+id/navigation_garage"
+        android:icon="@drawable/icons8_garage_96px"
+        android:title="@string/garage" />
+
+</menu>
