@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.crefstech.myremote.API.API;
-import com.crefstech.myremote.MainActivity;
 import com.crefstech.myremote.R;
 import com.crefstech.myremote.databinding.ActivityLoginBinding;
+import com.crefstech.myremote.main.MainActivity;
 import com.crefstech.myremote.models.Auth;
 import com.crefstech.myremote.models.Device;
 import com.crefstech.myremote.room.devices.DeviceViewModel;

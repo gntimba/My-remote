@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_gate">
+
+    <fragment
+        android:id="@+id/navigation_alarm"
+        android:name="com.crefstech.myremote.main.AlarmFragment"
+        android:label="fragment_alarm"
+        tools:layout="@layout/fragment_alarm" />
+    <fragment
+        android:id="@+id/navigation_garage"
+        android:name="com.crefstech.myremote.main.GarageFragment"
+        android:label="fragment_garage"
+        tools:layout="@layout/fragment_garage" />
+    <fragment
+        android:id="@+id/navigation_gate"
+        android:name="com.crefstech.myremote.main.GateFragment"
+        android:label="fragment_host"
+        tools:layout="@layout/fragment_host" />
+</navigation>

@@ -18,6 +18,9 @@ public interface DeviceDao {
     @Query("SELECT * FROM devices")
     LiveData<List<Device>> getDevices();
 
+    @Query("SELECT * FROM devices")
+    List<Device> getDevicess();
+
     @Query("DELETE FROM devices")
     void Delete();
 

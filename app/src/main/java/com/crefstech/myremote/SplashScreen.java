@@ -7,14 +7,13 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.crefstech.myremote.login.LoginActivity;
+import com.crefstech.myremote.main.MainActivity;
 import com.crefstech.myremote.room.LocalRoomDatabase;
 import com.crefstech.myremote.room.user.User;
-import com.crefstech.myremote.room.user.UserViewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashScreen extends AppCompatActivity {
-    private UserViewModel userViewModel;
     private static final String TAG = "SplashSreen";
 
     @Override

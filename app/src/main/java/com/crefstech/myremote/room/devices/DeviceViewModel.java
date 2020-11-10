@@ -19,9 +19,9 @@ public class DeviceViewModel extends AndroidViewModel {
         deviceLiveData = deviceRepo.getUserLiveDevices();
     }
 
-    LiveData<List<Device>> getUserLiveData() {
-        return deviceLiveData;
-    }
+  public LiveData<List<Device>> getUserLiveData() {
+      return deviceLiveData;
+  }
 
     public void insert(Device device) {
         deviceRepo.insert(device);
