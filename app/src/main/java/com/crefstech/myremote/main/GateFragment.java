@@ -44,10 +44,9 @@ public class GateFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        Bundle b = new Bundle();
-        String type = b.getString("type");
         // Inflate the layout for this fragment
         fragmentHostBinding = FragmentHostBinding.inflate(inflater, container, false);
+
         getDevice();
         return fragmentHostBinding.getRoot();
     }
@@ -55,6 +54,12 @@ public class GateFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        fragmentHostBinding = null;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
         fragmentHostBinding = null;
     }
 
@@ -82,7 +87,7 @@ public class GateFragment extends Fragment {
                     Commands commands = gson.fromJson(device.get(0).getCommands(), Commands.class);
                     ButtonAdapter adapter = new ButtonAdapter(getActivity(), commands.getButton(), this);
                     fragmentHostBinding.recyclerGate.setAdapter(adapter);
-                    GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+                    GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
                     fragmentHostBinding.recyclerGate.setLayoutManager(manager);
 
                 } catch (Exception e) {

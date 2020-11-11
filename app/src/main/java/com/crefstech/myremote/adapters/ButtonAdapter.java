@@ -1,20 +1,15 @@
 package com.crefstech.myremote.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crefstech.myremote.R;
 import com.crefstech.myremote.models.Button;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -25,7 +20,6 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ViewHolder
     List<Button> mValues;
     Context mContext;
     protected ItemListener mListener;
-
     public ButtonAdapter(Context context, List<Button> values, ItemListener itemListener) {
 
         mValues = values;
@@ -34,9 +28,8 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         public TextView textView;
-        public ImageButton imageButton;
+        public android.widget.Button button;
         public RelativeLayout relativeLayout;
         Button item;
 
@@ -45,34 +38,42 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ViewHolder
             super(v);
 
             v.setOnClickListener(this);
-            textView = v.findViewById(R.id.label);
-            imageButton = v.findViewById(R.id.command);
-            relativeLayout = v.findViewById(R.id.relativeLayout);
+            //  textView = v.findViewById(R.id.label);
+            button = v.findViewById(R.id.command);
+            //   relativeLayout = v.findViewById(R.id.relativeLayout);
 
         }
 
         public void setData(Button item) {
             this.item = item;
-
-            textView.setText(item.getName());
-            Picasso.get().load(mContext.getString(R.string.url) + "api/icons/" + item.getIcon()).into(new Target() {
+            button.setText(item.getName());
+            button.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    BitmapDrawable bdrawable = new BitmapDrawable(bitmap);
-                    imageButton.setBackground(bdrawable);
-                }
-
-                @Override
-                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
-                }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
+                public void onClick(View v) {
+                    Toast toast = Toast.makeText(mContext, item.getName(), Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             });
-            relativeLayout.setBackgroundColor(mContext.getColor(R.color.app_green));
+
+            //   textView.setText(item.getName());
+//            Picasso.get().load(mContext.getString(R.string.url) + "api/icons/" + item.getIcon()).into(new Target() {
+//                @Override
+//                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//                    BitmapDrawable bdrawable = new BitmapDrawable(bitmap);
+//                //    imageButton.setBackground(bdrawable);
+//                }
+//
+//                @Override
+//                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+//
+//                }
+//
+//                @Override
+//                public void onPrepareLoad(Drawable placeHolderDrawable) {
+//
+//                }
+//            });
+            //   relativeLayout.setBackgroundColor(mContext.getColor(R.color.app_green));
 
         }
 
