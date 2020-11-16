@@ -21,7 +21,6 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 @Database(entities = {User.class, Device.class}, version = 2, exportSchema = false)
 public abstract class LocalRoomDatabase extends RoomDatabase {
     public abstract userDao userDao();
-
     public abstract DeviceDao deviceDao();
 
     private static volatile LocalRoomDatabase INSTANCE;
@@ -35,7 +34,6 @@ public abstract class LocalRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             LocalRoomDatabase.class, "localDatabase")
-
                             .build();
                 }
             }

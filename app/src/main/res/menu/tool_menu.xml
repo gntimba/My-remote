@@ -4,15 +4,15 @@
         android:id="@+id/settings"
         android:icon="@drawable/icons8_settings_96px"
         app:showAsAction="ifRoom"
-        android:title="@string/settings"></item>
+        android:title="@string/settings" />
     <item
         android:id="@+id/miProfile"
         android:icon="@drawable/icons8_edit_user_96px"
         app:showAsAction="ifRoom|withText"
-        android:title="@string/profile"></item>
+        android:title="@string/profile" />
     <item
         android:id="@+id/AddDevice"
         android:icon="@drawable/icons8_plus_96px"
         app:showAsAction="ifRoom|withText"
-        android:title="Add Device"></item>
+        android:title="@string/add_device" />
 </menu>

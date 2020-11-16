@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
+import com.crefstech.myremote.R;
 import com.crefstech.myremote.adapters.ButtonAdapter;
 import com.crefstech.myremote.databinding.FragmentHostBinding;
 import com.crefstech.myremote.models.Button;
@@ -64,7 +66,7 @@ public class GateFragment extends Fragment {
     }
 
     private void getDevice() {
-        class getDevice extends AsyncTask<Void, Void, List<Device>> implements ButtonAdapter.ItemListener {
+        class getDevice extends AsyncTask<Void, Void, List<Device>> {
 
             @Override
             protected List<Device> doInBackground(Void... voids) {
@@ -82,29 +84,39 @@ public class GateFragment extends Fragment {
             @Override
             protected void onPostExecute(List<Device> device) {
                 super.onPostExecute(device);
+
                 try {
-                    Gson gson = new Gson();
-                    Commands commands = gson.fromJson(device.get(0).getCommands(), Commands.class);
-                    ButtonAdapter adapter = new ButtonAdapter(getActivity(), commands.getButton(), this);
-                    fragmentHostBinding.recyclerGate.setAdapter(adapter);
-                    GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
-                    fragmentHostBinding.recyclerGate.setLayoutManager(manager);
+
+                    ArrayAdapter<Device> adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, device);
+                    fragmentHostBinding.selectGate.setAdapter(adapter);
+                    fragmentHostBinding.selectGate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Device item = (Device) parent.getItemAtPosition(position);
+                            Log.e(TAG, item.getCommands());
+                            Gson gson = new Gson();
+                            Commands commands = gson.fromJson(item.getCommands(), Commands.class);
+                            startRecycler(commands.getButton());
+                        }
+                    });
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
-            @Override
-            public void onItemClick(Button item) {
-                Toast toast = Toast.makeText(getActivity(), item.getName(), Toast.LENGTH_LONG);
-                toast.show();
-            }
         }
 
         getDevice ge = new getDevice();
         ge.execute();
     }
 
+    public void startRecycler(List<Button> button) {
+        ButtonAdapter adapter = new ButtonAdapter(getActivity(), button);
+        fragmentHostBinding.recyclerGate.setAdapter(adapter);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+        fragmentHostBinding.recyclerGate.setLayoutManager(manager);
+    }
 
 }

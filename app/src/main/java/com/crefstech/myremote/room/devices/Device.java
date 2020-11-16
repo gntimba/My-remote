@@ -93,4 +93,9 @@ public class Device {
         this.picture = picture;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return description;
+    }
 }
