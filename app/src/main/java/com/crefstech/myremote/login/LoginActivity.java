@@ -67,17 +67,17 @@ public class LoginActivity extends AppCompatActivity {
 
     public void showProgress(Boolean show) {
         if (show) {
-            binding.password.setVisibility(View.INVISIBLE);
-            binding.email.setVisibility(View.INVISIBLE);
-            binding.btnLinkToRegisterScreenCustomer.setVisibility(View.INVISIBLE);
-            binding.btnLogin.setVisibility(View.INVISIBLE);
+            binding.password.setVisibility(View.GONE);
+            binding.email.setVisibility(View.GONE);
+            binding.btnLinkToRegisterScreenCustomer.setVisibility(View.GONE);
+            binding.btnLogin.setVisibility(View.GONE);
             binding.progressBar1.setVisibility(View.VISIBLE);
         } else {
             binding.password.setVisibility(View.VISIBLE);
             binding.email.setVisibility(View.VISIBLE);
             binding.btnLinkToRegisterScreenCustomer.setVisibility(View.VISIBLE);
             binding.btnLogin.setVisibility(View.VISIBLE);
-            binding.progressBar1.setVisibility(View.INVISIBLE);
+            binding.progressBar1.setVisibility(View.GONE);
         }
     }
 
