@@ -41,12 +41,9 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ViewHolder
         public void setData(Button item) {
             this.item = item;
             button.setText(item.getName());
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast toast = Toast.makeText(mContext, item.getName(), Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+            button.setOnClickListener(v -> {
+                Toast toast = Toast.makeText(mContext, item.getName(), Toast.LENGTH_SHORT);
+                toast.show();
             });
 
             //   textView.setText(item.getName());
