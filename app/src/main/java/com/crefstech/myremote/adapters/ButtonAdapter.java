@@ -1,6 +1,9 @@
 package com.crefstech.myremote.adapters;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,26 +11,31 @@ import android.widget.Toast;
 
 import com.crefstech.myremote.R;
 import com.crefstech.myremote.models.Button;
+import com.crefstech.myremote.models.Commands;
 
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+
 public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ViewHolder> {
-    List<Button> mValues;
+    List<Commands> mValues;
     Context mContext;
+    protected Vibrator vibrator;
+
 
     //  protected ItemListener mListener;
-    public ButtonAdapter(Context context, List<Button> values) {
-
+    public ButtonAdapter(Context context,  List<Commands> values) {
+        vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         mValues = values;
         mContext = context;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public android.widget.Button button;
-        Button item;
+        Commands item;
 
         public ViewHolder(View v) {
 
@@ -38,11 +46,17 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ViewHolder
 
         }
 
-        public void setData(Button item) {
+        public void setData(Commands item) {
             this.item = item;
             button.setText(item.getName());
             button.setOnClickListener(v -> {
-                Toast toast = Toast.makeText(mContext, item.getName(), Toast.LENGTH_SHORT);
+                vibrator.cancel();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    vibrator.vibrate(100);
+                }
+                Toast toast = Toast.makeText(mContext, item.getSmsCommands(), Toast.LENGTH_SHORT);
                 toast.show();
             });
 

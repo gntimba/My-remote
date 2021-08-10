@@ -11,14 +11,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import androidx.annotation.NonNull;
+import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
-
-@Database(entities = {User.class, Device.class}, version = 2, exportSchema = false)
+//@Database(entities = {User.class, Device.class}, version = 1, exportSchema = true,autoMigrations = {@AutoMigration(from = 1 ,to=2)})
+@Database(entities = {User.class, Device.class}, version = 1, exportSchema = true)
 public abstract class LocalRoomDatabase extends RoomDatabase {
     public abstract userDao userDao();
     public abstract DeviceDao deviceDao();
@@ -33,7 +34,7 @@ public abstract class LocalRoomDatabase extends RoomDatabase {
             synchronized (LocalRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            LocalRoomDatabase.class, "localDatabase")
+                            LocalRoomDatabase.class, "localDatabase").fallbackToDestructiveMigration()
                             .build();
                 }
             }

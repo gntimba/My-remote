@@ -4,38 +4,61 @@ package com.crefstech.myremote.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Device {
+import java.io.Serializable;
+import java.util.List;
 
-    @SerializedName("id")
-    @Expose
+public class Device implements Serializable {
+
+
+    private String createdAt;
+
     private String id;
-    @SerializedName("phoneNo")
-    @Expose
-    private String phoneNo;
-    @SerializedName("customName")
-    @Expose
+
     private String customName;
-    @SerializedName("user_ID")
-    @Expose
-    private String userID;
-    @SerializedName("device_id")
-    @Expose
-    private String deviceId;
-    @SerializedName("model")
-    @Expose
+
     private String model;
-    @SerializedName("description")
-    @Expose
+
     private String description;
-    @SerializedName("type")
-    @Expose
+
     private String type;
-    @SerializedName("commands")
-    @Expose
-    private Commands commands;
-    @SerializedName("picture")
-    @Expose
-    private String picture;
+
+    private List<Commands> commands = null;
+
+    /**
+     * No args constructor for use in serialization
+     *
+     */
+    public Device() {
+    }
+
+    /**
+     *
+     * @param createdAt
+     * @param description
+     * @param customName
+     * @param model
+     * @param id
+     * @param type
+     * @param commands
+     */
+    public Device(String createdAt, String id, String customName, String model, String description, String type, List<Commands> commands) {
+        super();
+        this.createdAt = createdAt;
+        this.id = id;
+        this.customName = customName;
+        this.model = model;
+        this.description = description;
+        this.type = type;
+        this.commands = commands;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public String getId() {
         return id;
@@ -45,36 +68,12 @@ public class Device {
         this.id = id;
     }
 
-    public String getPhoneNo() {
-        return phoneNo;
-    }
-
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
-    }
-
     public String getCustomName() {
         return customName;
     }
 
     public void setCustomName(String customName) {
         this.customName = customName;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
     }
 
     public String getModel() {
@@ -101,20 +100,12 @@ public class Device {
         this.type = type;
     }
 
-    public Commands getCommands() {
+    public List<Commands> getCommands() {
         return commands;
     }
 
-    public void setCommands(Commands commands) {
+    public void setCommands(List<Commands> commands) {
         this.commands = commands;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
     }
 
 }

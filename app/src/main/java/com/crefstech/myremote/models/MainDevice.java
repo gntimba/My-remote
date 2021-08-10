@@ -1,65 +1,15 @@
 
 package com.crefstech.myremote.models;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
-public class MainDevice {
+import java.io.Serializable;
 
-    @SerializedName("id")
-    @Expose
-    private String id;
-    @SerializedName("model")
-    @Expose
-    private String model;
-    @SerializedName("picture")
-    @Expose
-    private Object picture;
-    @SerializedName("type")
-    @Expose
-    private String type;
-    @SerializedName("description")
-    @Expose
-    private String description;
+import lombok.Data;
 
-    public String getId() {
-        return id;
+@Data
+public class MainDevice implements Serializable {
+    Device device;
+    String phone;
+    public MainDevice(){
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public Object getPicture() {
-        return picture;
-    }
-
-    public void setPicture(Object picture) {
-        this.picture = picture;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
 }

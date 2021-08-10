@@ -18,7 +18,10 @@ import com.crefstech.myremote.room.LocalRoomDatabase;
 import com.crefstech.myremote.room.devices.Device;
 import com.crefstech.myremote.room.devices.DeviceViewModel;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
@@ -30,7 +33,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
  * create an instance of this fragment.
  */
 public class GateFragment extends Fragment {
-
+    Gson gson = new Gson();
     private static final String TAG = "gateFragment";
 
     @Override
@@ -66,12 +69,14 @@ public class GateFragment extends Fragment {
     }
 
     private void getDevice() {
+
+
         class getDevice extends AsyncTask<Void, Void, List<Device>> {
 
             @Override
             protected List<Device> doInBackground(Void... voids) {
                 try {
-                    Log.e(TAG, LocalRoomDatabase.getDatabase(getActivity()).deviceDao().getDevicess().get(0).getCommands());
+                   // Log.e(TAG, LocalRoomDatabase.getDatabase(getActivity()).deviceDao().getDevicess().get(0).getCommands());
                     return LocalRoomDatabase.getDatabase(getActivity()).deviceDao().getDevicess();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -94,11 +99,21 @@ public class GateFragment extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Device item = (Device) parent.getItemAtPosition(position);
                             Log.e(TAG, item.getCommands());
-                            Gson gson = new Gson();
-                            Commands commands = gson.fromJson(item.getCommands(), Commands.class);
-                            startRecycler(commands.getButton());
+
+                            Type type = new TypeToken<ArrayList<Commands>>() {
+                            }.getType();
+                             List<Commands>  commands = gson.fromJson(item.getCommands(), type);
+                            startRecycler(commands);
                         }
                     });
+
+                    if(device.size()==1){
+                        fragmentHostBinding.selectGate.setText(fragmentHostBinding.selectGate.getAdapter().getItem(0).toString(),false);
+                        Type type = new TypeToken<ArrayList<Commands>>() {
+                        }.getType();
+                        List<Commands>  commands = gson.fromJson(device.get(0).getCommands(), type);
+                        startRecycler(commands);
+                    }
 
 
                 } catch (Exception e) {
@@ -112,7 +127,7 @@ public class GateFragment extends Fragment {
         ge.execute();
     }
 
-    public void startRecycler(List<Button> button) {
+    public void startRecycler( List<Commands> button) {
         ButtonAdapter adapter = new ButtonAdapter(getActivity(), button);
         fragmentHostBinding.recyclerGate.setAdapter(adapter);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);

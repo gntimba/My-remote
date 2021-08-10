@@ -6,8 +6,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+import java.util.Date;
+
 @Entity(tableName = "user")
-public class User {
+public class User implements Serializable {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "id")
@@ -16,8 +19,40 @@ public class User {
     @NonNull
     private String token;
 
-    private String Name;
-    private String surname;
+    private String firstName;
+    private String lastName;
+    private String picture;
+    private String phoneNumber;
+    private String email;
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public User(@NonNull String id, @NonNull String token) {
         this.id = id;
@@ -42,19 +77,16 @@ public class User {
         this.token = token;
     }
 
-    public String getName() {
-        return Name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
 }

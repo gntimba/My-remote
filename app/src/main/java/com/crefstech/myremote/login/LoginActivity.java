@@ -13,12 +13,14 @@ import com.crefstech.myremote.databinding.ActivityLoginBinding;
 import com.crefstech.myremote.main.MainActivity;
 import com.crefstech.myremote.models.Auth;
 import com.crefstech.myremote.models.Device;
+import com.crefstech.myremote.models.MainDevice;
 import com.crefstech.myremote.room.devices.DeviceViewModel;
 import com.crefstech.myremote.room.user.User;
 import com.crefstech.myremote.room.user.UserViewModel;
 import com.google.gson.Gson;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -38,8 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        getSupportActionBar().hide();
-        binding.email.getEditText().setText("gntimba@gmail.com");
+      //  Objects.requireNonNull(getSupportActionBar()).hide();
+        binding.email.getEditText().setText("eugene@gmail.com");
         binding.password.getEditText().setText("magofifi");
         binding.progressBar1.setVisibility(View.INVISIBLE);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
@@ -82,26 +84,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getExisting(User token) {
-        Call<List<Device>> call = API.getAPIService(getApplicationContext()).getUserDevices("Bearer " + token.getToken());
-        call.enqueue(new Callback<List<Device>>() {
+        Call<List<MainDevice>> call = API.getAPIService(getApplicationContext()).getDevices("Bearer " + token.getToken(),token.getId());
+        call.enqueue(new Callback<List<MainDevice>>() {
             @Override
-            public void onResponse(Call<List<Device>> call, Response<List<Device>> response) {
+            public void onResponse(Call<List<MainDevice>> call, Response<List<MainDevice>> response) {
                 Log.d("TAG", response.code() + "");
                 try {
-                    for (Device resp : response.body()) {
+                    for (MainDevice resp : response.body()) {
                         Gson gson = new Gson();
-                        Log.e("Login", resp.getCustomName());
-                        Log.e("Login", gson.toJson(resp.getCommands()));
+                      //  Log.e("Login", resp.getDevice().getCustomName());
+                      //  Log.e("Login", gson.toJson(resp.getDevice().getCommands()));
                         com.crefstech.myremote.room.devices.Device device = new com.crefstech.myremote.room.devices.Device();
-
-                        device.setCommands(gson.toJson(resp.getCommands()));
-                        device.setCustomName(resp.getCustomName());
-                        device.setDescription(resp.getDescription());
-                        device.setId(resp.getId());
-                        device.setModel(resp.getModel());
-                        device.setType(resp.getType());
-                        device.setPhoneNo(resp.getPhoneNo());
-                        device.setPicture(resp.getPicture());
+                        device.setCommands(gson.toJson(resp.getDevice().getCommands()));
+                        device.setCustomName(resp.getDevice().getCustomName());
+                        device.setDescription(resp.getDevice().getDescription());
+                        device.setId(resp.getDevice().getId());
+                        device.setModel(resp.getDevice().getModel());
+                        device.setType(resp.getDevice().getType());
+                        device.setPhoneNo(resp.getPhone());
                         deviceViewModel.insert(device);
 
                     }
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Device>> call, Throwable t) {
+            public void onFailure(Call<List<MainDevice>> call, Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -137,15 +137,17 @@ public class LoginActivity extends AppCompatActivity {
 
                 try {
                     Log.d("TAG", response.code() + "");
-                    Auth respons = response.body();
-                    User user = new User(respons.getId(), respons.getToken());
+                    Auth auth1 = response.body();
+                    User user = response.body().getUser();
+
+                    user.setToken(auth1.getToken());
 
                     SharedPreferences mPreferences = getSharedPreferences(getApplicationContext().getString(R.string.token), MODE_PRIVATE);
                     SharedPreferences.Editor editor = mPreferences.edit();
                     editor.putString(getApplicationContext().getString(R.string.token), "Bearer " + user.getToken());
                     editor.apply();
                     userViewModel.insert(user);
-                    System.out.print(respons);
+                    System.out.print(auth1);
 //                    Toast toast = Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_LONG);
 //                    toast.show();
                     getExisting(user);

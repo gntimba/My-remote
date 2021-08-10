@@ -1,11 +1,12 @@
+package com.crefstech.myremote.models;
 
-
- package com.crefstech.myremote.models;
-
+import com.crefstech.myremote.room.user.User;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Auth {
+import java.io.Serializable;
+
+public class Auth implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -22,9 +23,19 @@ public class Auth {
     @SerializedName("password")
     @Expose
     private String password;
-    @SerializedName("mail")
+    @SerializedName("username")
     @Expose
-    private String mail;
+    private String username;
+
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getId() {
         return id;
@@ -67,11 +78,11 @@ public class Auth {
     }
 
     public String getMail() {
-        return mail;
+        return username;
     }
 
     public void setMail(String mail) {
-        this.mail = mail;
+        this.username = mail;
     }
 
 }
