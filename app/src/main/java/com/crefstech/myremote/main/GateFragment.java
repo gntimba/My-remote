@@ -11,8 +11,7 @@ import android.widget.ArrayAdapter;
 
 import com.crefstech.myremote.R;
 import com.crefstech.myremote.adapters.ButtonAdapter;
-import com.crefstech.myremote.databinding.FragmentHostBinding;
-import com.crefstech.myremote.models.Button;
+import com.crefstech.myremote.databinding.FragmentGateBinding;
 import com.crefstech.myremote.models.Commands;
 import com.crefstech.myremote.room.LocalRoomDatabase;
 import com.crefstech.myremote.room.devices.Device;
@@ -41,7 +40,7 @@ public class GateFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private FragmentHostBinding fragmentHostBinding;
+    private FragmentGateBinding fragmentHostBinding;
     private DeviceViewModel deviceViewModel;
 
     @Override
@@ -50,7 +49,7 @@ public class GateFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-        fragmentHostBinding = FragmentHostBinding.inflate(inflater, container, false);
+        fragmentHostBinding = FragmentGateBinding.inflate(inflater, container, false);
 
         getDevice();
         return fragmentHostBinding.getRoot();
@@ -77,7 +76,7 @@ public class GateFragment extends Fragment {
             protected List<Device> doInBackground(Void... voids) {
                 try {
                    // Log.e(TAG, LocalRoomDatabase.getDatabase(getActivity()).deviceDao().getDevicess().get(0).getCommands());
-                    return LocalRoomDatabase.getDatabase(getActivity()).deviceDao().getDevicess();
+                    return LocalRoomDatabase.getDatabase(getActivity()).deviceDao().getDevicesByType("GATE");
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -107,7 +106,7 @@ public class GateFragment extends Fragment {
                         }
                     });
 
-                    if(device.size()==1){
+                    if(device.size()>0){
                         fragmentHostBinding.selectGate.setText(fragmentHostBinding.selectGate.getAdapter().getItem(0).toString(),false);
                         Type type = new TypeToken<ArrayList<Commands>>() {
                         }.getType();

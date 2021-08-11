@@ -1,65 +1,131 @@
 package com.crefstech.myremote.main;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.crefstech.myremote.R;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AlarmFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.crefstech.myremote.R;
+import com.crefstech.myremote.adapters.ButtonAdapter;
+import com.crefstech.myremote.databinding.FragmentAlarmBinding;
+import com.crefstech.myremote.models.Commands;
+import com.crefstech.myremote.room.LocalRoomDatabase;
+import com.crefstech.myremote.room.devices.Device;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class AlarmFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    Gson gson = new Gson();
+    private static final String TAG = AlarmFragment.class.toString();
+    private FragmentAlarmBinding fragmentAlarmBinding;
 
     public AlarmFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AlarmFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AlarmFragment newInstance(String param1, String param2) {
-        AlarmFragment fragment = new AlarmFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alarm, container, false);
+        fragmentAlarmBinding = FragmentAlarmBinding.inflate(inflater, container, false);
+
+        getDevice();
+        return fragmentAlarmBinding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        fragmentAlarmBinding = null;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        fragmentAlarmBinding = null;
+    }
+
+    private void getDevice() {
+
+
+        class getDevice extends AsyncTask<Void, Void, List<Device>> {
+
+            @Override
+            protected List<Device> doInBackground(Void... voids) {
+                try {
+                    // Log.e(TAG, LocalRoomDatabase.getDatabase(getActivity()).deviceDao().getDevicess().get(0).getCommands());
+                    return LocalRoomDatabase.getDatabase(getActivity()).deviceDao().getDevicesByType("ALARM");
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    return null;
+                }
+
+            }
+
+            @Override
+            protected void onPostExecute(List<Device> device) {
+                super.onPostExecute(device);
+
+                try {
+
+                    ArrayAdapter<Device> adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, device);
+                    fragmentAlarmBinding.selectAlarm.setAdapter(adapter);
+                    fragmentAlarmBinding.selectAlarm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Device item = (Device) parent.getItemAtPosition(position);
+                            Log.e(TAG, item.getCommands());
+
+                            Type type = new TypeToken<ArrayList<Commands>>() {
+                            }.getType();
+                            List<Commands> commands = gson.fromJson(item.getCommands(), type);
+                            startRecycler(commands);
+                        }
+                    });
+
+                    if (device.size() > 0) {
+                        fragmentAlarmBinding.selectAlarm.setText(fragmentAlarmBinding.selectAlarm.getAdapter().getItem(0).toString(), false);
+                        Type type = new TypeToken<ArrayList<Commands>>() {
+                        }.getType();
+                        List<Commands> commands = gson.fromJson(device.get(0).getCommands(), type);
+                        startRecycler(commands);
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        getDevice ge = new getDevice();
+        ge.execute();
+    }
+
+    public void startRecycler(List<Commands> button) {
+        ButtonAdapter adapter = new ButtonAdapter(getActivity(), button);
+        fragmentAlarmBinding.recyclerAlarm.setAdapter(adapter);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+        fragmentAlarmBinding.recyclerAlarm.setLayoutManager(manager);
     }
 }

@@ -21,6 +21,9 @@ public interface DeviceDao {
     @Query("SELECT * FROM devices")
     List<Device> getDevicess();
 
+    @Query("SELECT * FROM devices WHERE type = :type")
+    List<Device> getDevicesByType(String type);
+
     @Query("DELETE FROM devices")
     void Delete();
 

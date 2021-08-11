@@ -19,5 +19,5 @@
         android:id="@+id/navigation_gate"
         android:name="com.crefstech.myremote.main.GateFragment"
         android:label="fragment_host"
-        tools:layout="@layout/fragment_host" />
+        tools:layout="@layout/fragment_gate" />
 </navigation>

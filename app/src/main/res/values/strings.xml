@@ -27,4 +27,6 @@
     <string name="profile">Profile</string>
     <string name="add_device">Add Device</string>
     <string name="select_gate">Select Gate</string>
+    <string name="selectAlarm">Select Alarm</string>
+    <string name="select_garage">Select Garage</string>
 </resources>

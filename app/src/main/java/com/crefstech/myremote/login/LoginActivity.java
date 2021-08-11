@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.email.getEditText().setText("eugene@gmail.com");
         binding.password.getEditText().setText("magofifi");
         binding.progressBar1.setVisibility(View.INVISIBLE);
+        binding.status.setVisibility(View.GONE);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         deviceViewModel = new ViewModelProvider(this).get(DeviceViewModel.class);
 
@@ -74,16 +75,19 @@ public class LoginActivity extends AppCompatActivity {
             binding.btnLinkToRegisterScreenCustomer.setVisibility(View.GONE);
             binding.btnLogin.setVisibility(View.GONE);
             binding.progressBar1.setVisibility(View.VISIBLE);
+            binding.status.setVisibility(View.VISIBLE);
         } else {
             binding.password.setVisibility(View.VISIBLE);
             binding.email.setVisibility(View.VISIBLE);
             binding.btnLinkToRegisterScreenCustomer.setVisibility(View.VISIBLE);
             binding.btnLogin.setVisibility(View.VISIBLE);
             binding.progressBar1.setVisibility(View.GONE);
+            binding.status.setVisibility(View.GONE);
         }
     }
 
     private void getExisting(User token) {
+        binding.status.setText("Getting devices You own");
         Call<List<MainDevice>> call = API.getAPIService(getApplicationContext()).getDevices("Bearer " + token.getToken(),token.getId());
         call.enqueue(new Callback<List<MainDevice>>() {
             @Override
@@ -125,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void doLogin(String email, String password) {
-
+        binding.status.setText("Logging in...");
         Auth auth = new Auth();
         auth.setMail(email);
         auth.setPassword(password);
@@ -148,6 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.apply();
                     userViewModel.insert(user);
                     System.out.print(auth1);
+                    binding.status.setText("Logged in");
 //                    Toast toast = Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_LONG);
 //                    toast.show();
                     getExisting(user);
