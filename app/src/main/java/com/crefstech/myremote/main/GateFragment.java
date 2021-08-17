@@ -102,7 +102,7 @@ public class GateFragment extends Fragment {
                             Type type = new TypeToken<ArrayList<Commands>>() {
                             }.getType();
                              List<Commands>  commands = gson.fromJson(item.getCommands(), type);
-                            startRecycler(commands);
+                            startRecycler(commands, item);
                         }
                     });
 
@@ -111,7 +111,7 @@ public class GateFragment extends Fragment {
                         Type type = new TypeToken<ArrayList<Commands>>() {
                         }.getType();
                         List<Commands>  commands = gson.fromJson(device.get(0).getCommands(), type);
-                        startRecycler(commands);
+                        startRecycler(commands, device.get(0));
                     }
 
 
@@ -126,10 +126,11 @@ public class GateFragment extends Fragment {
         ge.execute();
     }
 
-    public void startRecycler( List<Commands> button) {
-        ButtonAdapter adapter = new ButtonAdapter(getActivity(), button);
+    public void startRecycler(List<Commands> button, Device item) {
+        ButtonAdapter adapter = new ButtonAdapter(getActivity(), button,item);
         fragmentHostBinding.recyclerGate.setAdapter(adapter);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        manager.setReverseLayout(true);
         fragmentHostBinding.recyclerGate.setLayoutManager(manager);
     }
 

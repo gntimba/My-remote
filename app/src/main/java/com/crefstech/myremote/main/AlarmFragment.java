@@ -98,7 +98,7 @@ public class AlarmFragment extends Fragment {
                             Type type = new TypeToken<ArrayList<Commands>>() {
                             }.getType();
                             List<Commands> commands = gson.fromJson(item.getCommands(), type);
-                            startRecycler(commands);
+                            startRecycler(commands,item);
                         }
                     });
 
@@ -107,7 +107,7 @@ public class AlarmFragment extends Fragment {
                         Type type = new TypeToken<ArrayList<Commands>>() {
                         }.getType();
                         List<Commands> commands = gson.fromJson(device.get(0).getCommands(), type);
-                        startRecycler(commands);
+                        startRecycler(commands, device.get(0));
                     }
 
 
@@ -122,8 +122,8 @@ public class AlarmFragment extends Fragment {
         ge.execute();
     }
 
-    public void startRecycler(List<Commands> button) {
-        ButtonAdapter adapter = new ButtonAdapter(getActivity(), button);
+    public void startRecycler(List<Commands> button, Device item) {
+        ButtonAdapter adapter = new ButtonAdapter(getActivity(), button,item);
         fragmentAlarmBinding.recyclerAlarm.setAdapter(adapter);
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
         fragmentAlarmBinding.recyclerAlarm.setLayoutManager(manager);

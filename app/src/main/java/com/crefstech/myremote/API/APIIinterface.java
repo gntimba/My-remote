@@ -4,6 +4,7 @@ import com.crefstech.myremote.models.Auth;
 import com.crefstech.myremote.models.Device;
 import com.crefstech.myremote.models.MainDevice;
 import com.crefstech.myremote.models.UserDevice;
+import com.crefstech.myremote.models.smsDTO;
 
 import java.util.List;
 
@@ -27,4 +28,7 @@ public interface APIIinterface {
 
     @GET("api/getUserDevices")
     Call<List<Device>> getUserDevices(@Header("Authorization") String Authorization);
+
+    @POST("/sms/send")
+    Call<smsDTO> sendCommand(@Header("Authorization") String Authorization,@Body smsDTO command);
 }

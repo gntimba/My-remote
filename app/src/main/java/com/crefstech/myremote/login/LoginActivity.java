@@ -149,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences mPreferences = getSharedPreferences(getApplicationContext().getString(R.string.token), MODE_PRIVATE);
                     SharedPreferences.Editor editor = mPreferences.edit();
                     editor.putString(getApplicationContext().getString(R.string.token), "Bearer " + user.getToken());
+                    editor.putString("id", user.getId());
                     editor.apply();
                     userViewModel.insert(user);
                     System.out.print(auth1);
