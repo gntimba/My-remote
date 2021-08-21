@@ -96,6 +96,6 @@ public class Device {
     @NonNull
     @Override
     public String toString() {
-        return description;
+        return customName;
     }
 }
