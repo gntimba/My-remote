@@ -8,6 +8,7 @@ import com.crefstech.myremote.R;
 import com.crefstech.myremote.databinding.ActivityMainBinding;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;

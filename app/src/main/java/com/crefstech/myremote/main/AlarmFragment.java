@@ -125,7 +125,7 @@ public class AlarmFragment extends Fragment {
     public void startRecycler(List<Commands> button, Device item) {
         ButtonAdapter adapter = new ButtonAdapter(getActivity(), button,item);
         fragmentAlarmBinding.recyclerAlarm.setAdapter(adapter);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         fragmentAlarmBinding.recyclerAlarm.setLayoutManager(manager);
     }
 }

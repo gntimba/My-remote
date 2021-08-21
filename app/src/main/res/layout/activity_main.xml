@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:id="@+id/container"
     android:fitsSystemWindows="true"
+    android:background="@drawable/lucas2"
     android:layout_height="match_parent"
     tools:context=".main.MainActivity">
 

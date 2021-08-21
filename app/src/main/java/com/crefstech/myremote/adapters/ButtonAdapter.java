@@ -8,17 +8,19 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.crefstech.myremote.API.API;
 import com.crefstech.myremote.R;
+import com.crefstech.myremote.databinding.RecyclerViewItemBinding;
 import com.crefstech.myremote.models.Commands;
 import com.crefstech.myremote.models.smsDTO;
 import com.crefstech.myremote.room.devices.Device;
+import com.crefstech.myremote.util.util;
 
 import java.util.List;
 
@@ -44,66 +46,41 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public android.widget.Button button;
-        Commands item;
+        RecyclerViewItemBinding binding;
 
-        public ViewHolder(View v) {
-
-            super(v);
-
-
-            button = v.findViewById(R.id.command);
-
+        public ViewHolder(RecyclerViewItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
-
-        public void setData(Commands item) {
-            this.item = item;
-            button.setText(item.getName());
-            button.setOnClickListener(v -> {
-                vibrator.cancel();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
-                } else {
-                    vibrator.vibrate(100);
-                }
-               sendCommand(item.getSmsCommands());
-            });
-
-            //   textView.setText(item.getName());
-//            Picasso.get().load(mContext.getString(R.string.url) + "api/icons/" + item.getIcon()).into(new Target() {
-//                @Override
-//                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                    BitmapDrawable bdrawable = new BitmapDrawable(bitmap);
-//                //    imageButton.setBackground(bdrawable);
-//                }
-//
-//                @Override
-//                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//
-//                }
-//
-//                @Override
-//                public void onPrepareLoad(Drawable placeHolderDrawable) {
-//
-//                }
-//            });
-            //   relativeLayout.setBackgroundColor(mContext.getColor(R.color.app_green));
-
-        }
-
     }
 
     @Override
     public ButtonAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(mContext).inflate(R.layout.recycler_view_item, parent, false);
-
-        return new ViewHolder(view);
+        return new ViewHolder(RecyclerViewItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder Vholder, int position) {
-        Vholder.setData(mValues.get(position));
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        Commands item = mValues.get(position);
+        viewHolder.binding.description.setText(item.getName());
+        //   viewHolder.binding.imageDescription.setColorFilter(ContextCompat.getColor(mContext,R.color.red), PorterDuff.Mode.SRC_IN);
+//        Picasso.get().load(mContext.getString(R.string.url) + "images/" + item.getIcon())
+//                .placeholder(R.drawable.default_icon)
+//                .into(viewHolder.binding.imageDescription);
+
+        Glide.with(mContext).load(mContext.getString(R.string.url) + "images/" + item.getIcon())
+                .placeholder(R.drawable.default_icon)
+                .into(viewHolder.binding.imageDescription);
+
+        viewHolder.binding.mainCard.setOnClickListener(v -> {
+            vibrator.cancel();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrator.vibrate(100);
+            }
+            sendCommand(item.getSmsCommands());
+        });
 
     }
 
@@ -114,39 +91,43 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ViewHolder
     }
 
     private void sendCommand(String command) {
+        if(      util.isNetworkAvailable(mContext)) {
 
-        SharedPreferences mPreferences = mContext.getSharedPreferences(mContext.getString(R.string.token), MODE_PRIVATE);
-        String token = mPreferences.getString("token", "");
-        String id = mPreferences.getString("id", "");
-        smsDTO sms = new smsDTO(command, id, device.getPhoneNo());
-        Call<smsDTO> call = API.getAPIService(mContext).sendCommand(token, sms);
-        call.enqueue(new Callback<smsDTO>() {
-            @SneakyThrows
-            @Override
-            public void onResponse(Call<smsDTO> call, Response<smsDTO> response) {
+            SharedPreferences mPreferences = mContext.getSharedPreferences(mContext.getString(R.string.token), MODE_PRIVATE);
+            String token = mPreferences.getString("token", "");
+            String id = mPreferences.getString("id", "");
+            smsDTO sms = new smsDTO(command, id, device.getPhoneNo());
+            Call<smsDTO> call = API.getAPIService(mContext).sendCommand(token, sms);
+            call.enqueue(new Callback<smsDTO>() {
+                @SneakyThrows
+                @Override
+                public void onResponse(Call<smsDTO> call, Response<smsDTO> response) {
 
-                try {
-                    if (response.isSuccessful()) {
-                        Toast toast = Toast.makeText(mContext, response.body().getMessage(), Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        Toast toast = Toast.makeText(mContext, response.errorBody().string(), Toast.LENGTH_SHORT);
+                    try {
+                        if (response.isSuccessful()) {
+                            Toast toast = Toast.makeText(mContext, response.body().getMessage(), Toast.LENGTH_SHORT);
+                            toast.show();
+                        } else {
+                            Toast toast = Toast.makeText(mContext, response.errorBody().string(), Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    } catch (Exception e) {
+                        Toast toast = Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT);
                         toast.show();
                     }
-                }catch (Exception e){
-                    Toast toast = Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT);
-                    toast.show();
+
                 }
 
-            }
+                @Override
+                public void onFailure(Call<smsDTO> call, Throwable t) {
+                    Toast toast = Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT);
+                    toast.show();
+                    t.printStackTrace();
+                }
+            });
+        }else
+            Toast.makeText(mContext, "Check if network is available", Toast.LENGTH_LONG).show();
 
-            @Override
-            public void onFailure(Call<smsDTO> call, Throwable t) {
-                Toast toast = Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_SHORT);
-                toast.show();
-                t.printStackTrace();
-            }
-        });
     }
 }
 

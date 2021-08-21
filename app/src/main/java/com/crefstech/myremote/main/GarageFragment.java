@@ -126,7 +126,7 @@ public class GarageFragment extends Fragment {
     public void startRecycler(List<Commands> button ,Device item) {
         ButtonAdapter adapter = new ButtonAdapter(getActivity(), button,item);
         fragmentGarageBinding.recyclerGrage.setAdapter(adapter);
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         fragmentGarageBinding.recyclerGrage.setLayoutManager(manager);
     }
 }

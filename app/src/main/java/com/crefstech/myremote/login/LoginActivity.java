@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                       //  Log.e("Login", gson.toJson(resp.getDevice().getCommands()));
                         com.crefstech.myremote.room.devices.Device device = new com.crefstech.myremote.room.devices.Device();
                         device.setCommands(gson.toJson(resp.getDevice().getCommands()));
-                        device.setCustomName(resp.getDevice().getCustomName());
+                        device.setCustomName(resp.getCustomName());
                         device.setDescription(resp.getDevice().getDescription());
                         device.setId(resp.getDevice().getId());
                         device.setModel(resp.getDevice().getModel());
