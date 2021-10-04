@@ -2,11 +2,16 @@ package com.crefstech.myremote.adapters;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -79,7 +84,7 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ViewHolder
             } else {
                 vibrator.vibrate(100);
             }
-            sendCommand(item.getSmsCommands());
+            sendSMS(item.getSmsCommands());
         });
 
     }
@@ -128,6 +133,26 @@ public class ButtonAdapter extends RecyclerView.Adapter<ButtonAdapter.ViewHolder
         }else
             Toast.makeText(mContext, "Check if network is available", Toast.LENGTH_LONG).show();
 
+    }
+
+    private void sendSMS (String comand){
+        Log.i("Send SMS", "");
+        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
+
+
+       // smsIntent.setType("vnd.android-dir/mms-sms");
+        smsIntent.setData(Uri.parse("smsto:"));
+        smsIntent.putExtra("address"  , device.getPhoneNo());
+        smsIntent.putExtra("sms_body"  , comand);
+
+        try {
+            mContext.startActivity(smsIntent);
+
+            Log.i("Finished sending SMS...", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(mContext,
+                    "SMS faild, please try again later.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 
