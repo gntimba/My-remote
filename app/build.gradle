@@ -4,6 +4,20 @@ plugins {
 apply plugin: 'kotlin-android'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\Thulani\\OneDrive\\key.jks')
+            storePassword 'M@gofifi1'
+            keyAlias 'Godfery'
+            keyPassword 'M@gofifi1'
+        }
+        release {
+            storeFile file('C:\\Users\\Thulani\\OneDrive\\key.jks')
+            storePassword 'M@gofifi1'
+            keyAlias 'Godfrey'
+            keyPassword 'M@gofifi1'
+        }
+    }
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
@@ -20,6 +34,7 @@ android {
         }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
     buildFeatures {
         viewBinding true
