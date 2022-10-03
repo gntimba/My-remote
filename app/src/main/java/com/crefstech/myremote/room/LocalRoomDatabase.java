@@ -34,7 +34,9 @@ public abstract class LocalRoomDatabase extends RoomDatabase {
             synchronized (LocalRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            LocalRoomDatabase.class, "localDatabase").fallbackToDestructiveMigration()
+                            LocalRoomDatabase.class, "localDatabase")
+                            .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()
                             .build();
                 }
             }
