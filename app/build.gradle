@@ -6,13 +6,13 @@ apply plugin: 'kotlin-android'
 android {
     signingConfigs {
         debug {
-            storeFile file('C:\\Users\\Godfrey\\OneDrive\\key.jks')
+            storeFile file('key.jks')
             storePassword 'M@gofifi1'
             keyAlias 'Godfery'
             keyPassword 'M@gofifi1'
         }
         release {
-            storeFile file('C:\\Users\\Godfrey\\OneDrive\\key.jks')
+            storeFile file('key.jks')
             storePassword 'M@gofifi1'
             keyAlias 'Godfrey'
             keyPassword 'M@gofifi1'
