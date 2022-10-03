@@ -8,7 +8,7 @@ android {
         debug {
             storeFile file('key.jks')
             storePassword 'M@gofifi1'
-            keyAlias 'Godfery'
+            keyAlias 'Godfrey'
             keyPassword 'M@gofifi1'
         }
         release {
